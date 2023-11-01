@@ -5,7 +5,6 @@ This project is an example of block programming, a visual and beginner-friendly 
 
 ![Screenshot](https://github.com/RodolfoBrandaoOficial/BlocklyProgramming/blob/main/hscreenshot.png)
 
-
 ## Inspirations 💡
 - **Blockly**: The project draws inspiration from Blockly, a powerful library developed by Google that enables the creation of block-based programming environments. Blockly is used as the core technology for creating the visual programming interface.
 
@@ -34,12 +33,11 @@ This project is an example of block programming, a visual and beginner-friendly 
 ## Contributing 🤝
 If you want to contribute to this project, please follow the standard GitHub workflow for contributing to open-source projects. We welcome contributions and improvements to enhance the block programming experience.
 
+## Credits and Acknowledgments 🙏
+- This project is built upon the foundation of [Blockly](https://github.com/google/blockly), a powerful library for block-based programming by Google.
+
 ## License 📝
 This project is licensed under the [MIT License](LICENSE).
-
-## Acknowledgments 🙏
-- Blockly: The project wouldn't be possible without the Blockly library.
-- The open-source community for providing valuable resources and inspiration.
 
 ## Contact 📧
 For questions or feedback, please feel free to reach out to [RodolfoBrandao](mailto:rodolfo@rodolfobrandao.com.br).
