@@ -5,6 +5,17 @@ This project is an example of block programming, a visual and beginner-friendly 
 
 ![Screenshot](https://github.com/RodolfoBrandaoOficial/BlocklyProgramming/blob/main/hscreenshot.png)
 
+## Technologies Used 💻
+The project is built using the following technologies:
+
+1. **HTML (Hypertext Markup Language)**: HTML is the markup language used to create the webpage's structure, defining elements such as columns, the Blockly block-view area, and buttons.
+
+2. **JavaScript**: JavaScript is the programming language responsible for implementing the project's logic, making the Blockly interface interactive. It handles block creation and execution, as well as data manipulation and chart visualization. The project utilizes libraries like Blockly (for block creation) and Chart.js (for chart visualization).
+
+3. **CSS (Cascading Style Sheets)**: CSS is used for styling the webpage, providing an appealing visual design. It defines layout, colors, fonts, and overall styling for the webpage. CSS is used to style Blockly blocks, buttons, and the general webpage formatting.
+
+These technologies work together to create a web-based block programming environment, allowing users to visually create, execute, and view the results of their programs.
+
 ## Inspirations 💡
 - **Blockly**: The project draws inspiration from Blockly, a powerful library developed by Google that enables the creation of block-based programming environments. Blockly is used as the core technology for creating the visual programming interface.
 
