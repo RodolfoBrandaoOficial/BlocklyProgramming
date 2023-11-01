@@ -3,7 +3,7 @@
 ## Project Overview 🚀
 This project is an example of block programming, a visual and beginner-friendly way to introduce programming concepts. It demonstrates how to create a web-based block programming environment using Blockly, an open-source library that allows users to drag and drop code blocks to create programs. The project includes custom blocks and functionalities to showcase the power and versatility of block-based programming.
 
-![Screenshot](https://github.com/RodolfoBrandaoOficial/BlocklyProgramming/blob/main/screenshot.png)
+![Screenshot](https://github.com/RodolfoBrandaoOficial/BlocklyProgramming/blob/main/hscreenshot.png)
 
 
 ## Inspirations 💡
