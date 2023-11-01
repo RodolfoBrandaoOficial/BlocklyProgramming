@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blockly Block Programming</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        #blocklyDiv {
+            height: 600px;
+            width: 100%;
+            border: 1px solid #aaa;
+        }
+
+        #outputArea {
+            border: 1px solid #aaa;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .toolbox {
+            width: 200px;
+            float: left;
+            margin-right: 10px;
+        }
+
+        pre#outputArea {
+            width: 100%;
+            height: auto;
+        }
+
+        #visualArea {
+            width: 100%;
+            height: 400px;
+            /* Defina a altura desejada */
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Blockly Block Programming</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <xml id="toolbox" style="display: none">
+                    <!-- Category 1: Control Blocks -->
+                    <category name="Control" colour="210">
+                        <block type="controls_if"></block>
+                        <block type="controls_ifelse"></block>
+                        <block type="controls_repeat"></block>
+                        <block type="controls_repeat_ext"></block>
+                        <block type="controls_whileUntil"></block>
+                        <block type="controls_for">
+                            <value name="FROM">
+                                <block type="math_number"></block>
+                            </value>
+                            <value name="TO">
+                                <block type="math_number"></block>
+                            </value>
+                            <value name="BY">
+                                <block type="math_number"></block>
+                            </value>
+                        </block>
+                        <block type="controls_forEach"></block>
+                        <block type="controls_doWhile"></block>
+                    </category>
+
+
+                    <!-- Category 2: Math Blocks -->
+                    <category name="Math" colour="120">
+                        <block type="math_number"></block>
+                        <block type="math_arithmetic"></block>
+                        <block type="math_random_int"> <!-- Adiciona um bloco para gerar um número inteiro aleatório -->
+                            <value name="FROM">
+                                <block type="math_number"></block>
+                            </value>
+                            <value name="TO">
+                                <block type="math_number"></block>
+                            </value>
+                        </block>
+                        <block type="math_random_float">
+                            <!-- Adiciona um bloco para gerar um número de ponto flutuante aleatório -->
+                        </block>
+                        <block type="math_trig">
+                            <!-- Adiciona blocos para funções trigonométricas (seno, cosseno, tangente) -->
+                            <field name="OP">sin</field>
+                            <value name="NUM">
+                                <block type="math_number"></block>
+                            </value>
+                        </block>
+                        <block type="math_constant"> <!-- Adiciona um bloco para constantes matemáticas (π e e) -->
+                        </block>
+                    </category>
+
+                    </category>
+
+                    <!-- Category 3: Logic Blocks -->
+                    <category name="Logic" colour="210">
+                        <block type="logic_compare"></block>
+                        <block type="logic_operation"></block>
+                        <block type="logic_boolean"></block>
+                        <block type="logic_null"> <!-- Adiciona um bloco para representar um valor nulo -->
+                        </block>
+                        <block type="logic_ternary">
+                            <!-- Adiciona um bloco para operador ternário (condição ? verdadeiro : falso) -->
+                        </block>
+                    </category>
+
+
+                    <!-- Category 4: Loops Blocks -->
+                    <category name="Loops" colour="120">
+                        <block type="controls_repeat"></block>
+                        <block type="controls_forEach"></block>
+                        <block type="controls_whileUntil"></block>
+                        <block type="controls_doWhile"></block>
+                        <block type="controls_forever"></block>
+                    </category>
+
+
+
+                    <!-- Category 5: Text Blocks -->
+                    <category name="Text" colour="160">
+                        <block type="text"></block>
+                        <block type="text_length"></block>
+                        <!-- Adiciona um bloco para obter o comprimento de uma string -->
+                        <block type="text_append"> <!-- Adiciona um bloco para concatenar duas strings -->
+                            <value name="TEXT">
+                                <block type="text"></block>
+                            </value>
+                        </block>
+                        <block type="text_isEmpty"> <!-- Adiciona um bloco para verificar se uma string está vazia -->
+                            <value name="VALUE">
+                                <block type="text"></block>
+                            </value>
+                        </block>
+                    </category>
+
+
+                    <!-- Category 6: Lists Blocks -->
+                    <category name="Lists" colour="260">
+                        <block type="lists_create_empty"></block>
+                        <block type="lists_create_with"></block>
+                        <block type="lists_indexOf"></block>
+                        <block type="lists_getIndex">
+                            <!-- Adiciona um bloco para obter um item em uma lista por índice -->
+                            <value name="VALUE">
+                                <block type="variables_get"></block>
+                            </value>
+                        </block>
+                        <block type="lists_setIndex">
+                            <!-- Adiciona um bloco para definir um item em uma lista por índice -->
+                            <value name="LIST">
+                                <block type="variables_get"></block>
+                            </value>
+                            <value name="AT">
+                                <block type="math_number"></block>
+                            </value>
+                        </block>
+                        <block type="lists_getSublist"> <!-- Adiciona um bloco para obter uma sublista de uma lista -->
+                            <value name="LIST">
+                                <block type="variables_get"></block>
+                            </value>
+                            <value name="AT1">
+                                <block type="math_number"></block>
+                            </value>
+                            <value name="AT2">
+                                <block type="math_number"></block>
+                            </value>
+                        </block>
+                        <block type="lists_split">
+                            <!-- Adiciona um bloco para dividir uma string em uma lista de substrings -->
+                            <value name="DELIM">
+                                <block type="text"></block>
+                            </value>
+                        </block>
+                        <block type="lists_reverse"> <!-- Adiciona um bloco para inverter uma lista -->
+                            <value name="LIST">
+                                <block type="variables_get"></block>
+                            </value>
+                        </block>
+                        <block type="lists_sort"> <!-- Adiciona um bloco para classificar uma lista -->
+                            <field name="TYPE">NUMERIC</field>
+                            <field name="DIRECTION">1</field>
+                            <value name="LIST">
+                                <block type="variables_get"></block>
+                            </value>
+                        </block>
+                        <block type="lists_repeat">
+                            <!-- Adiciona um bloco para criar uma lista com elementos repetidos -->
+                            <value name="NUM">
+                                <block type="math_number"></block>
+                            </value>
+                        </block>
+                        <block type="lists_length"> <!-- Adiciona um bloco para obter o tamanho de uma lista -->
+                            <value name="VALUE">
+                                <block type="variables_get"></block>
+                            </value>
+                        </block>
+                    </category>
+
+
+                    <!-- Category 7: Colour Blocks -->
+                    <category name="Colour" colour="20">
+                        <block type="colour_picker"></block>
+                        <block type="colour_random"></block>
+                        <block type="colour_rgb">
+                            <value name="RED">
+                                <block type="math_number">
+                                    <field name="NUM">255</field>
+                                </block>
+                            </value>
+                            <value name="GREEN">
+                                <block type="math_number">
+                                    <field name="NUM">0</field>
+                                </block>
+                            </value>
+                            <value name="BLUE">
+                                <block type="math_number">
+                                    <field name="NUM">0</field>
+                                </block>
+                            </value>
+                        </block>
+                        <block type="colour_blend">
+                            <value name="COLOUR1">
+                                <block type="colour_picker"></block>
+                            </value>
+                            <value name="COLOUR2">
+                                <block type="colour_picker"></block>
+                            </value>
+                            <value name="RATIO">
+                                <block type="math_number">
+                                    <field name="NUM">0.5</field>
+                                </block>
+                            </value>
+                        </block>
+                    </category>
+
+
+                    <!-- Category 8: Variables Blocks -->
+                    <category name="Variables" colour="330" custom="VARIABLE">
+                        <block type="variables_get"> <!-- Adiciona um bloco para obter o valor de uma variável -->
+                            <field name="VAR" id="yourVariableId">variável</field>
+                        </block>
+                        <block type="variables_set"> <!-- Adiciona um bloco para definir o valor de uma variável -->
+                            <field name="VAR" id="yourVariableId">variável</field>
+                        </block>
+                    </category>
+
+                    <!-- Category 9: Functions Blocks -->
+                    <category name="Functions" colour="290" custom="PROCEDURE">
+                        <block type="procedures_defreturn"> <!-- Adiciona um bloco de função com retorno -->
+                            <mutation>
+                                <arg name="param1"></arg>
+                                <arg name="param2"></arg>
+                                <!-- Adicione mais argumentos, se necessário -->
+                            </mutation>
+                        </block>
+                        <block type="procedures_callreturn">
+                            <!-- Adiciona um bloco para chamar uma função com retorno -->
+                        </block>
+                        <block type="procedures_callnoreturn">
+                            <!-- Adiciona um bloco para chamar uma função sem retorno -->
+                        </block>
+                        <block type="procedures_ifreturn">
+                            <!-- Adiciona um bloco condicional para uma função com retorno -->
+                            <mutation value="true"></mutation>
+                        </block>
+                        <block type="procedures_ifreturn">
+                            <!-- Adiciona um bloco condicional para uma função com retorno -->
+                            <mutation value="false"></mutation>
+                        </block>
+                        <block type="procedures_ifreturn">
+                            <!-- Adiciona um bloco condicional para uma função com retorno -->
+                            <mutation value="false"></mutation>
+                        </block>
+                    </category>
+
+
+
+                    <!-- Category 10: Custom Blocks -->
+                    <category name="Custom Blocks" colour="230">
+                        <block type="custom_block"></block>
+                        <block type="custom_block2"></block>
+                        <block type="custom_block3"></block>
+                        <block type="custom_block4"></block>
+                        <block type="custom_block5"></block>
+                        <block type="custom_block6"></block>
+                        <block type="custom_block7"></block>
+                        <block type="custom_block8"></block>
+                    </category>
+
+
+                    <!-- Category 11: HTTP Blocks -->
+                    <category name="HTTP Blocks" colour="100">
+                        <block type="http_request"></block>
+                        <block type="http_response"></block>
+                        <block type="http_get"> <!-- Adiciona um bloco para fazer uma solicitação HTTP GET -->
+                            <value name="URL">
+                                <block type="text"></block>
+                            </value>
+                        </block>
+                        <block type="http_post"> <!-- Adiciona um bloco para fazer uma solicitação HTTP POST -->
+                            <value name="URL">
+                                <block type="text"></block>
+                            </value>
+                            <value name="DATA">
+                                <block type="text"></block>
+                            </value>
+                        </block>
+                        <block type="http_put"> <!-- Adiciona um bloco para fazer uma solicitação HTTP PUT -->
+                            <value name="URL">
+                                <block type="text"></block>
+                            </value>
+                            <value name="DATA">
+                                <block type="text"></block>
+                            </value>
+                        </block>
+                        <block type="http_delete"> <!-- Adiciona um bloco para fazer uma solicitação HTTP DELETE -->
+                            <value name="URL">
+                                <block type="text"></block>
+                            </value>
+                        </block>
+                        <block type="http_header">
+                            <!-- Adiciona um bloco para adicionar um cabeçalho a uma solicitação HTTP -->
+                            <value name="HEADER_NAME">
+                                <block type="text"></block>
+                            </value>
+                            <value name="HEADER_VALUE">
+                                <block type="text"></block>
+                            </value>
+                        </block>
+                    </category>
+
+
+
+                </xml>
+                <div id="blocklyDiv"></div>
+                <button id="runButton" class="btn btn-primary">Execute</button>
+            </div>
+            <div class="col-md-3">
+                <h2>Output</h2>
+                <pre id="outputArea" width="400" height="400"></pre>
+                <div id="visualArea" width="400" height="400"></div>
+                <canvas id="chartCanvas" width="400" height="400"></canvas>
+
+
+            </div>
+            <button id="toggleChartButton" class="btn btn-primary">Mostrar Gráfico</button>
+
+        </div>
+    </div>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="https://unpkg.com/blockly/blocks.min.js"></script>
+    <script src="https://unpkg.com/blockly/javascript.min.js"></script>
+    <script src="https://unpkg.com/blockly-custom-fields/dist/blockly-custom-fields.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Create Blockly workspace
+        var workspace = Blockly.inject('blocklyDiv', {
+            toolbox: document.getElementById('toolbox')
+        });
+
+        var showChart = false;
+
+        function createBarChart(data) {
+            var chartCanvas = document.getElementById('chartCanvas');
+            var ctx = chartCanvas.getContext('2d');
+
+            var chartData = {
+                labels: data.map(function (value, index) { return 'Item ' + (index + 1); }),
+                datasets: [{
+                    label: 'Valores',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            if (showChart) {
+                // Se o gráfico já foi criado, atualize-o
+                chart.data.labels = chartData.labels;
+                chart.data.datasets[0].data = chartData.datasets[0].data;
+                chart.update();
+            } else {
+                // Se o gráfico não foi criado, crie-o
+                chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                showChart = true;
+            }
+        }
+
+        var chart; // Variável para manter a instância do gráfico
+
+        function toggleChart() {
+            var chartCanvas = document.getElementById('chartCanvas');
+            var visualArea = document.getElementById('visualArea');
+            var toggleButton = document.getElementById('toggleChartButton');
+
+            if (showChart) {
+                chartCanvas.style.display = 'none';
+                visualArea.style.display = 'block';
+                toggleButton.innerText = 'Mostrar Gráfico';
+            } else {
+                chartCanvas.style.display = 'block';
+                visualArea.style.display = 'none';
+                toggleButton.innerText = 'Mostrar Texto';
+            }
+
+            showChart = !showChart;
+        }
+
+        document.getElementById('toggleChartButton').addEventListener('click', toggleChart);
+
+        document.getElementById('runButton').addEventListener('click', function () {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            try {
+                var result;
+
+                if (Array.isArray(code) && code.length === 1 && code[0].type === "custom_block7") {
+                    // Verifique se o bloco em execução é o custom_block7
+                    var customBlock = code[0];
+                    var customCode = Blockly.JavaScript.valueToCode(customBlock, 'CODE', Blockly.JavaScript.ORDER_ATOMIC);
+                    result = executeCustomCode(customCode);
+                } else {
+                    result = eval(code);
+                }
+
+                if (Array.isArray(result) && result.every(isNumber)) {
+                    createBarChart(result);
+                    toggleChart();
+                } else {
+                    var visualArea = document.getElementById('visualArea');
+                    visualArea.innerHTML = result;
+                }
+            } catch (e) {
+                document.getElementById('outputArea').innerText = 'Error: ' + e;
+            }
+        });
+
+        function executeCustomCode(code) {
+            // Execute o código JavaScript personalizado
+            return eval(code); // Este é um exemplo simples, você pode usar abordagens mais avançadas
+        }
+
+
+
+
+
+        // Define um bloco para loop 'do-while'
+        Blockly.Blocks['controls_doWhile'] = {
+            init: function () {
+                this.appendStatementInput("DO")
+                    .appendField("do");
+                this.appendValueInput("CONDITION")
+                    .setCheck("Boolean")
+                    .appendField("while");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(120);
+                this.setTooltip("");
+            }
+        };
+
+        // Define um bloco para um loop infinito
+        Blockly.Blocks['controls_forever'] = {
+            init: function () {
+                this.appendStatementInput("DO")
+                    .appendField("forever do");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(120);
+                this.setTooltip("");
+            }
+        };
+
+
+
+        // Define o bloco personalizado 'custom_block' que exibe uma mensagem na saída.
+        Blockly.Blocks['custom_block'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField("Exibir Mensagem Personalizada:");
+                this.appendValueInput("MESSAGE")
+                    .setCheck("String")
+                    .appendField("Mensagem");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(230);
+                this.setTooltip("Exibe uma mensagem na saída.");
+                this.setHelpUrl("");
+            }
+        };
+
+        // Define o bloco personalizado 'custom_block2' que gera um número aleatório.
+        Blockly.Blocks['custom_block2'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField("Gerar Número Aleatório:");
+                this.appendValueInput("MIN")
+                    .setCheck("Number")
+                    .appendField("Mínimo");
+                this.appendValueInput("MAX")
+                    .setCheck("Number")
+                    .appendField("Máximo");
+                this.setOutput(true, "Number");
+                this.setColour(230);
+                this.setTooltip("Gera um número aleatório entre os valores especificados.");
+                this.setHelpUrl("");
+            }
+        };
+
+        // Define o bloco personalizado 'custom_block3' que inverte uma string.
+        Blockly.Blocks['custom_block3'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField("Inverter String:");
+                this.appendValueInput("TEXT")
+                    .setCheck("String")
+                    .appendField("Texto");
+                this.setOutput(true, "String");
+                this.setColour(230);
+                this.setTooltip("Inverte a ordem dos caracteres em uma string.");
+                this.setHelpUrl("");
+            }
+        };
+
+        // Define o bloco personalizado 'custom_block4' que calcula o quadrado de um número.
+        Blockly.Blocks['custom_block4'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField("Calcular Quadrado:");
+                this.appendValueInput("NUMBER")
+                    .setCheck("Number")
+                    .appendField("Número");
+                this.setOutput(true, "Number");
+                this.setColour(230);
+                this.setTooltip("Calcula o quadrado de um número.");
+                this.setHelpUrl("");
+            }
+        };
+
+        Blockly.Blocks['custom_block5'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField("Executar Loop Personalizado:");
+                this.appendValueInput("TIMES")
+                    .setCheck("Number")
+                    .appendField("Número de Vezes");
+                this.appendStatementInput("DO")
+                    .setCheck(null)
+                    .appendField("Faça");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(120);
+                this.setTooltip("Executa um loop personalizado um número especificado de vezes.");
+                this.setHelpUrl("");
+            }
+        };
+
+        Blockly.Blocks['custom_block6'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField("Loop de Repetição Personalizado:");
+                this.appendValueInput("CONDITION")
+                    .setCheck("Boolean")
+                    .appendField("Até que");
+                this.appendStatementInput("DO")
+                    .setCheck(null)
+                    .appendField("Faça");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(120);
+                this.setTooltip("Executa um loop personalizado até que uma condição seja verdadeira.");
+                this.setHelpUrl("");
+            }
+        };
+
+
+        Blockly.Blocks['custom_block7'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField("Executar Código JavaScript Personalizado:");
+                this.appendValueInput("CODE")
+                    .setCheck("String")
+                    .appendField("Código JavaScript");
+                this.setOutput(true, "String"); // Defina o tipo de saída, se necessário
+                this.setColour(230);
+                this.setTooltip("Executa código JavaScript personalizado.");
+            }
+        };
+
+        Blockly.Blocks['custom_block8'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField("Exibir mensagem com base na condição:");
+                this.appendValueInput("CONDITION")
+                    .setCheck("Boolean")
+                    .setAlign(Blockly.ALIGN_RIGHT)
+                    .appendField("Condição (verdadeiro/falso)");
+                this.appendValueInput("MESSAGE_MORNING")
+                    .setCheck("String")
+                    .setAlign(Blockly.ALIGN_RIGHT)
+                    .appendField("Mensagem de Bom Dia");
+                this.appendValueInput("MESSAGE_AFTERNOON")
+                    .setCheck("String")
+                    .setAlign(Blockly.ALIGN_RIGHT)
+                    .appendField("Mensagem de Boa Tarde");
+                this.appendValueInput("MESSAGE_EVENING")
+                    .setCheck("String")
+                    .setAlign(Blockly.ALIGN_RIGHT)
+                    .appendField("Mensagem de Boa Noite");
+                this.setOutput(true, "String");
+                this.setColour(230);
+                this.setTooltip("Exibe mensagem com base na condição.");
+            }
+        };
+
+        Blockly.JavaScript['custom_block8'] = function (block) {
+            var condition = Blockly.JavaScript.valueToCode(block, 'CONDITION', Blockly.JavaScript.ORDER_ATOMIC);
+            var messageMorning = Blockly.JavaScript.valueToCode(block, 'MESSAGE_MORNING', Blockly.JavaScript.ORDER_ATOMIC);
+            var messageAfternoon = Blockly.JavaScript.valueToCode(block, 'MESSAGE_AFTERNOON', Blockly.JavaScript.ORDER_ATOMIC);
+            var messageEvening = Blockly.JavaScript.valueToCode(block, 'MESSAGE_EVENING', Blockly.JavaScript.ORDER_ATOMIC);
+
+            var code = `
+    if (${condition}) {
+        ${messageMorning}
+    } else if (/* Adicione sua condição de tarde aqui */) {
+        ${messageAfternoon}
+    } else if (/* Adicione sua condição de noite aqui */) {
+        ${messageEvening}
+    }
+    `;
+
+            return [code, Blockly.JavaScript.ORDER_ATOMIC];
+        };
+
+
+        // Define um bloco HTTP Request
+        Blockly.Blocks['http_request'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField("HTTP Request");
+                this.appendValueInput("url")
+                    .setCheck("String")
+                    .appendField("URL");
+                this.appendValueInput("method")
+                    .setCheck("String")
+                    .appendField("Method");
+                this.appendStatementInput("headers")
+                    .setCheck("http_headers")
+                    .appendField("Headers");
+                this.appendStatementInput("data") // Adiciona uma entrada para dados da solicitação
+                    .setCheck("String")
+                    .appendField("Data");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(100);
+                this.setTooltip("Send an HTTP Request");
+                this.setHelpUrl("");
+            }
+        };
+
+        // Define um bloco HTTP Response
+        Blockly.Blocks['http_response'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField("HTTP Response");
+                this.appendStatementInput("response_data")
+                    .setCheck("String")
+                    .appendField("Response Data");
+                this.setPreviousStatement(true, null);
+                this.setColour(100);
+                this.setTooltip("Handle HTTP Response");
+                this.setHelpUrl("");
+            }
+        };
+
+        // Define um bloco para fazer uma solicitação HTTP GET
+        Blockly.Blocks['http_get'] = {
+            init: function () {
+                this.appendValueInput("url")
+                    .setCheck("String")
+                    .appendField("HTTP GET URL");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(100);
+                this.setTooltip("Make an HTTP GET request");
+                this.setHelpUrl("");
+            }
+        };
+
+        // Define um bloco para fazer uma solicitação HTTP POST
+        Blockly.Blocks['http_post'] = {
+            init: function () {
+                this.appendValueInput("url")
+                    .setCheck("String")
+                    .appendField("HTTP POST URL");
+                this.appendValueInput("data")
+                    .setCheck("String")
+                    .appendField("Data");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(100);
+                this.setTooltip("Make an HTTP POST request");
+                this.setHelpUrl("");
+            }
+        };
+
+        // Define um bloco para fazer uma solicitação HTTP PUT
+        Blockly.Blocks['http_put'] = {
+            init: function () {
+                this.appendValueInput("url")
+                    .setCheck("String")
+                    .appendField("HTTP PUT URL");
+                this.appendValueInput("data")
+                    .setCheck("String")
+                    .appendField("Data");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(100);
+                this.setTooltip("Make an HTTP PUT request");
+                this.setHelpUrl("");
+            }
+        };
+
+        // Define um bloco para fazer uma solicitação HTTP DELETE
+        Blockly.Blocks['http_delete'] = {
+            init: function () {
+                this.appendValueInput("url")
+                    .setCheck("String")
+                    .appendField("HTTP DELETE URL");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(100);
+                this.setTooltip("Make an HTTP DELETE request");
+                this.setHelpUrl("");
+            }
+        };
+
+        // Define um bloco para adicionar um cabeçalho a uma solicitação HTTP
+        Blockly.Blocks['http_header'] = {
+            init: function () {
+                this.appendValueInput("header_name")
+                    .setCheck("String")
+                    .appendField("Header Name");
+                this.appendValueInput("header_value")
+                    .setCheck("String")
+                    .appendField("Header Value");
+                this.setPreviousStatement(true, "http_headers");
+                this.setNextStatement(true, "http_headers");
+                this.setColour(100);
+                this.setTooltip("Add a header to an HTTP request");
+                this.setHelpUrl("");
+            }
+        };
+
+
+
+    </script>
+</body>
+
+</html>
